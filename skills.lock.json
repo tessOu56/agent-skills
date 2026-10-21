@@ -1,0 +1,146 @@
+{
+  "version": 1,
+  "skills": [
+    {
+      "id": "react-best-practices",
+      "source": "https://github.com/vercel-labs/agent-skills",
+      "upstreamPath": "skills/react-best-practices",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "license": "MIT",
+      "importedAt": "2026-10-21",
+      "targets": [
+        "ai-search-portal",
+        "nx-playground",
+        "metalcraft-platform",
+        "explore-design-sdk"
+      ],
+      "status": "link-only",
+      "notes": "Upstream declares MIT without a LICENSE file. Recorded as a link only."
+    },
+    {
+      "id": "accessibility",
+      "source": "https://github.com/addyosmani/web-quality-skills",
+      "upstreamPath": "skills/accessibility",
+      "commit": "afa8da942115f2961fdbfa80807ea0b232ff6c00",
+      "license": "MIT",
+      "importedAt": "2026-10-21",
+      "targets": [
+        "ai-search-portal",
+        "nx-playground",
+        "metalcraft-platform",
+        "explore-design-sdk"
+      ],
+      "status": "vendored",
+      "vendorPath": "vendor/addyosmani/accessibility",
+      "licensePath": "LICENSE"
+    },
+    {
+      "id": "core-web-vitals",
+      "source": "https://github.com/addyosmani/web-quality-skills",
+      "upstreamPath": "skills/core-web-vitals",
+      "commit": "afa8da942115f2961fdbfa80807ea0b232ff6c00",
+      "license": "MIT",
+      "importedAt": "2026-10-21",
+      "targets": [
+        "ai-search-portal",
+        "nx-playground",
+        "metalcraft-platform"
+      ],
+      "status": "vendored",
+      "vendorPath": "vendor/addyosmani/core-web-vitals",
+      "licensePath": "LICENSE"
+    },
+    {
+      "id": "performance",
+      "source": "https://github.com/addyosmani/web-quality-skills",
+      "upstreamPath": "skills/performance",
+      "commit": "afa8da942115f2961fdbfa80807ea0b232ff6c00",
+      "license": "MIT",
+      "importedAt": "2026-10-21",
+      "targets": [
+        "ai-search-portal",
+        "nx-playground",
+        "metalcraft-platform"
+      ],
+      "status": "vendored",
+      "vendorPath": "vendor/addyosmani/performance",
+      "licensePath": "LICENSE"
+    },
+    {
+      "id": "seo",
+      "source": "https://github.com/addyosmani/web-quality-skills",
+      "upstreamPath": "skills/seo",
+      "commit": "afa8da942115f2961fdbfa80807ea0b232ff6c00",
+      "license": "MIT",
+      "importedAt": "2026-10-21",
+      "targets": [
+        "ai-search-portal",
+        "nx-playground",
+        "metalcraft-platform"
+      ],
+      "status": "vendored",
+      "vendorPath": "vendor/addyosmani/seo",
+      "licensePath": "LICENSE"
+    },
+    {
+      "id": "security-threat-model",
+      "source": "https://github.com/openai/skills",
+      "upstreamPath": "skills/.curated/security-threat-model",
+      "commit": "49f948faa9258a0c61caceaf225e179651397431",
+      "license": "Apache-2.0",
+      "importedAt": "2026-10-21",
+      "targets": [
+        "nx-playground",
+        "ai-search-portal"
+      ],
+      "status": "vendored",
+      "vendorPath": "vendor/openai/security-threat-model",
+      "licensePath": "skills/.curated/security-threat-model/LICENSE.txt"
+    },
+    {
+      "id": "postgres-best-practices",
+      "source": "https://github.com/supabase/agent-skills",
+      "upstreamPath": "skills/supabase-postgres-best-practices",
+      "commit": "c9be0e931b7930f7d02126d04774d904c381e7d7",
+      "license": "MIT",
+      "importedAt": "2026-10-21",
+      "targets": [
+        "nx-playground",
+        "polyglot-labs"
+      ],
+      "status": "vendored",
+      "vendorPath": "vendor/supabase/postgres-best-practices",
+      "licensePath": "LICENSE"
+    },
+    {
+      "id": "api-design-principles",
+      "source": "https://github.com/wshobson/agents",
+      "upstreamPath": "plugins/backend-development/skills/api-design-principles",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "license": "MIT",
+      "importedAt": "2026-10-21",
+      "targets": [
+        "nx-playground",
+        "polyglot-labs"
+      ],
+      "status": "vendored",
+      "vendorPath": "vendor/wshobson/api-design-principles",
+      "licensePath": "LICENSE"
+    },
+    {
+      "id": "security-audit",
+      "source": "https://github.com/cloudflare/security-audit-skill",
+      "upstreamPath": "skills/security-audit",
+      "commit": "c1c8a8c1471069fb0e188eeaff69b8e8db6564a8",
+      "license": "MIT",
+      "importedAt": "2026-10-21",
+      "targets": [
+        "nx-playground",
+        "ai-search-portal"
+      ],
+      "status": "vendored",
+      "vendorPath": "vendor/cloudflare/security-audit",
+      "licensePath": "LICENSE"
+    }
+  ]
+}

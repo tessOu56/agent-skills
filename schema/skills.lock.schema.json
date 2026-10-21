@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/tessOu56/agent-skills/schema/skills.lock.schema.json",
+  "title": "Agent skills lock file",
+  "description": "Pin file for vendored and link-only agent skills.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "skills"],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "skills": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/skill"
+      }
+    }
+  },
+  "$defs": {
+    "skill": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "source",
+        "upstreamPath",
+        "commit",
+        "license",
+        "importedAt",
+        "targets"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "source": {
+          "type": "string",
+          "pattern": "^https://github\\.com/[^/]+/[^/]+$"
+        },
+        "upstreamPath": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1,
+          "description": "SPDX id when known, or a short status such as UNCLEAR."
+        },
+        "importedAt": {
+          "type": "string",
+          "format": "date"
+        },
+        "targets": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]*$"
+          }
+        },
+        "status": {
+          "type": "string",
+          "enum": ["vendored", "link-only"]
+        },
+        "vendorPath": {
+          "type": "string",
+          "pattern": "^vendor/"
+        },
+        "licensePath": {
+          "type": "string",
+          "description": "Upstream path of the license file that covers this skill, if any."
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "status": { "const": "vendored" } },
+            "required": ["status"]
+          },
+          "then": {
+            "required": ["vendorPath"]
+          }
+        },
+        {
+          "if": {
+            "properties": { "status": { "const": "link-only" } },
+            "required": ["status"]
+          },
+          "then": {
+            "not": {
+              "required": ["vendorPath"]
+            }
+          }
+        }
+      ]
+    }
+  }
+}
