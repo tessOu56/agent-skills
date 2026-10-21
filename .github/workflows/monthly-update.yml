@@ -1,0 +1,77 @@
+name: Monthly upstream check
+
+on:
+  schedule:
+    - cron: "0 8 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  check-upstream:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Compare pins to upstream HEAD
+        id: check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set +e
+          node scripts/check-updates.mjs --out upstream-report.md
+          code=$?
+          set -e
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          if [ "$code" -ne 0 ] && [ "$code" -ne 10 ]; then
+            exit "$code"
+          fi
+
+      - name: Open or update tracking issue
+        if: steps.check.outputs.exit_code == '10'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          title="Upstream skill updates available"
+          body_file="upstream-report.md"
+          gh label create upstream-updates --description "Upstream skill pin drift" --color "0E8A16" 2>/dev/null || true
+          existing="$(gh issue list --label upstream-updates --state open --json number --jq '.[0].number')"
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body-file "$body_file"
+          else
+            gh issue create --title "$title" --body-file "$body_file" --label "upstream-updates"
+          fi
+
+      - name: Refresh pins and open a pull request
+        if: steps.check.outputs.exit_code == '10'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node scripts/check-updates.mjs --apply
+          if git diff --quiet -- skills.lock.json vendor; then
+            echo "Report-only change; no vendor refresh was written."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          branch="chore/upstream-skills-$(date -u +%Y-%m-%d)"
+          git checkout -B "$branch"
+          git add skills.lock.json vendor
+          git commit -m "chore: refresh vendored skills from upstream"
+          git push -u origin "$branch"
+          if ! gh pr list --head "$branch" --json number --jq '.[0].number' | grep -q .; then
+            gh pr create \
+              --title "chore: refresh vendored skills from upstream" \
+              --body-file upstream-report.md
+          fi
